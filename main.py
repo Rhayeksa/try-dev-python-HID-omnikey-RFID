@@ -3,9 +3,11 @@ import requests
 from smartcard.System import readers
 from smartcard.util import toHexString
 from smartcard.Exceptions import NoCardException
+import json
 
 # API_URL = "https://example.com/api/rfid"  # Ganti dengan endpoint REST API kamu
 API_URL = "https://dummyjson.com/products/add"  # Ganti dengan endpoint REST API kamu
+API_URL = "http://192.168.1.20:8099/api/read-rfid"  # Ganti dengan endpoint REST API kamu
 GET_UID = [0xFF, 0xCA, 0x00, 0x00, 0x00]
 
 def get_reader():
@@ -15,10 +17,13 @@ def get_reader():
     return contactless_readers[0]
 
 def send_uid(uid, device_name):
-    payload = {"uid": uid, "device": device_name}
+    payload = {"uid": uid, "device": device_name, "rfid": uid}
     try:
         res = requests.post(API_URL, json=payload, timeout=5)
         print("✅   UID terkirim:", uid) if res.ok else print("⚠️\tGagal kirim:", res.status_code)
+        res = json.loads(res.content.decode())
+        print(res)
+        print(type(res))
         print()
     except Exception as e:
         print("❌   Error API:", e)
