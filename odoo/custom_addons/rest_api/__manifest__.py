@@ -18,7 +18,7 @@ Long description of module's purpose
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base'],
+    'depends': ['base', 'web'],
 
     # always loaded
     'data': [
@@ -30,5 +30,6 @@ Long description of module's purpose
     'demo': [
         'demo/demo.xml',
     ],
+    'application': False,
+    'installable': True,
 }
-
