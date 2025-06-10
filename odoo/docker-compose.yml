@@ -1,0 +1,31 @@
+version: "3.1"
+services:
+  web:
+    container_name: odoo18_api
+    image: odoo:18.0
+    depends_on:
+      - db
+    ports:
+      - "8099:8069"
+    volumes:
+      - ./config:/etc/odoo
+      - ./custom_addons:/var/lib/odoo/addons/18.0/custom_addons
+    environment:
+      - HOST=db
+      - USER=odoo18
+      - PASSWORD=odoo18
+    # command: ["odoo", "-c", "/etc/odoo/odoo.conf", "-u", "all"]
+    # entrypoint: "/usr/bin/odoo -c /etc/odoo/odoo.conf -u all"
+    # env_file:
+    #   - ./.env
+    # restart: always
+  db:
+    container_name: db_odoo18_api
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=odoo18
+      - POSTGRES_PASSWORD=odoo18
+    ports:
+      - "5499:5432"
+    # restart: always
