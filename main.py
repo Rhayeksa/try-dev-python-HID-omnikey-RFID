@@ -4,7 +4,8 @@ from smartcard.System import readers
 from smartcard.util import toHexString
 from smartcard.Exceptions import NoCardException
 
-API_URL = "https://example.com/api/rfid"  # Ganti dengan endpoint REST API kamu
+# API_URL = "https://example.com/api/rfid"  # Ganti dengan endpoint REST API kamu
+API_URL = "https://dummyjson.com/products/add"  # Ganti dengan endpoint REST API kamu
 GET_UID = [0xFF, 0xCA, 0x00, 0x00, 0x00]
 
 def get_reader():
