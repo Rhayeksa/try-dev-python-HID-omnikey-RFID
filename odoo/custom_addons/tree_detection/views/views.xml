@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+<!--
+    <record model="ir.ui.view" id="tree_detection.list">
+      <field name="name">tree_detection list</field>
+      <field name="model">tree_detection.tree_detection</field>
+      <field name="arch" type="xml">
+        <list>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </list>
+      </field>
+    </record>
+-->
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="tree_detection.action_window">
+      <field name="name">tree_detection window</field>
+      <field name="res_model">tree_detection.tree_detection</field>
+      <field name="view_mode">list,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="tree_detection.action_server">
+      <field name="name">tree_detection server</field>
+      <field name="model_id" ref="model_tree_detection_tree_detection"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "list,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="tree_detection" id="tree_detection.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="tree_detection.menu_1" parent="tree_detection.menu_root"/>
+    <menuitem name="Menu 2" id="tree_detection.menu_2" parent="tree_detection.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="tree_detection.menu_1_list" parent="tree_detection.menu_1"
+              action="tree_detection.action_window"/>
+    <menuitem name="Server to list" id="tree_detection" parent="tree_detection.menu_2"
+              action="tree_detection.action_server"/>
+-->
+  </data>
+</odoo>
