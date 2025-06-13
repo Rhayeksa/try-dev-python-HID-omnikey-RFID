@@ -1,0 +1,44 @@
+<!-- latihan_view.xml -->
+<odoo>
+
+  <!-- form -->
+  <record id="view_form_latihan_model" model="ir.ui.view">
+    <field name="name">latihan.model.form</field>
+    <field name="model">latihan.model</field>
+    <field name="arch" type="xml">
+      <form string="Latihan Model">
+        <sheet>
+          <group>
+            <field name="name"/>
+            <field name="deskripsi"/>
+            <field name="tanggal"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <!-- list -->
+  <record id="view_list_latihan_model" model="ir.ui.view">
+    <field name="name">latihan.model.list</field>
+    <field name="model">latihan.model</field>
+    <field name="arch" type="xml">
+      <list string="Latihan Model">
+        <field name="name"/>
+        <field name="tanggal"/>
+        <field name="create_date" string="" readonly="1"/>
+        <field name="create_uid" string="Dibuat oleh" readonly="1"/>
+      </list>
+    </field>
+  </record>
+
+  <!-- action -->
+  <record id="action_latihan_model" model="ir.actions.act_window">
+    <field name="name">Latihan</field>
+    <field name="res_model">latihan.model</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+  <!-- <menuitem id="menu_latihan_root" name="Latihan"/> -->
+  <!-- <menuitem id="menu_latihan_model" name="Data Latihan" parent="menu_latihan_root" action="action_latihan_model"/> -->
+</odoo>

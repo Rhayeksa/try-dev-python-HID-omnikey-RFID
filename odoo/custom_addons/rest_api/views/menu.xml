@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <!-- root menu -->
+    <menuitem id="menu_latihan_root" name="Latihan"/>
+
+    <!-- sub menu -->
+    <menuitem id="menu_latihan_model" name="Data Latihan" parent="menu_latihan_root" action="action_latihan_model"/>
+  </data>
+</odoo>

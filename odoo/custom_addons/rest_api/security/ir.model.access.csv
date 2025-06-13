@@ -1,2 +1,2 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_rest_api_rest_api,rest_api.rest_api,model_rest_api_rest_api,base.group_user,1,1,1,1
+access_latihan_model_user,access_latihan_model_user,model_latihan_model,,1,1,1,1
