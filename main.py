@@ -22,14 +22,15 @@ def get_reader():
 def send_uid(uid, device_name):
     payload = {"uid": uid, "device": device_name, "rfid": uid}
     try:
-        res = requests.post(f"{API_URL}/{uid}", json=payload, timeout=5)
+        res = requests.put(f"{API_URL}/{uid}", json=payload, timeout=5)
         print("✅\tUID terkirim:", uid) if res.ok else print(
             "⚠️\tGagal kirim:", res.status_code)
         res = json.loads(res.content.decode())
         print(f"Response : {res}")
-        print()
     except Exception as e:
         print("❌   Error API:", e)
+    finally:
+        print()
 
 
 def main():
