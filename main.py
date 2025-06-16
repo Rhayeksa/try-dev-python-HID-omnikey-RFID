@@ -1,12 +1,15 @@
+import json
 import time
+
 import requests
+from smartcard.Exceptions import NoCardException
 from smartcard.System import readers
 from smartcard.util import toHexString
-from smartcard.Exceptions import NoCardException
-import json
 
-API_URL = "http://146.190.93.211:8099/api/read-rfid"  # Ganti dengan endpoint REST API
+# Ganti dengan endpoint REST API
+API_URL = "http://146.190.93.211:8099/api/tree-detection"
 GET_UID = [0xFF, 0xCA, 0x00, 0x00, 0x00]
+
 
 def get_reader():
     # Mencari pembaca contactless
@@ -15,16 +18,19 @@ def get_reader():
         raise Exception("❌\tReader contactless tidak ditemukan.")
     return contactless_readers[0]
 
+
 def send_uid(uid, device_name):
     payload = {"uid": uid, "device": device_name, "rfid": uid}
     try:
-        res = requests.post(API_URL, json=payload, timeout=5)
-        print("✅\tUID terkirim:", uid) if res.ok else print("⚠️\tGagal kirim:", res.status_code)
+        res = requests.post(f"{API_URL}/{uid}", json=payload, timeout=5)
+        print("✅\tUID terkirim:", uid) if res.ok else print(
+            "⚠️\tGagal kirim:", res.status_code)
         res = json.loads(res.content.decode())
         print(f"Response : {res}")
         print()
     except Exception as e:
         print("❌   Error API:", e)
+
 
 def main():
     reader = None
@@ -37,9 +43,11 @@ def main():
             reader = get_reader()
             device_name = str(reader)
             conn = reader.createConnection()
-            print(f"\n🔍\tReader aktif: {device_name}\nTempelkan kartu RFID...\n")
+            print(
+                f"\n🔍\tReader aktif: {device_name}\nTempelkan kartu RFID...\n")
         except Exception as e:
-            print("❌\tTidak ada reader yang ditemukan. Menunggu reader untuk dihubungkan...")
+            print(
+                "❌\tTidak ada reader yang ditemukan. Menunggu reader untuk dihubungkan...")
             time.sleep(3)
 
     last_uid = None
@@ -71,10 +79,13 @@ def main():
                     reader = get_reader()
                     device_name = str(reader)
                     conn = reader.createConnection()
-                    print(f"\n🔍   Reader aktif: {device_name}\nTempelkan kartu RFID...\n")
+                    print(
+                        f"\n🔍   Reader aktif: {device_name}\nTempelkan kartu RFID...\n")
                 except Exception as e:
-                    print("❌\tTidak ada reader yang ditemukan. Menunggu reader untuk dihubungkan...")
+                    print(
+                        "❌\tTidak ada reader yang ditemukan. Menunggu reader untuk dihubungkan...")
                     time.sleep(3)
+
 
 if __name__ == "__main__":
     try:
