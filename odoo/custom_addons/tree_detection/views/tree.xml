@@ -1,0 +1,54 @@
+<!-- tree_view.xml -->
+<odoo>
+
+  <!-- form -->
+  <record id="view_form_tree_model" model="ir.ui.view">
+    <field name="name">tree.model.form</field>
+    <field name="model">tree.model</field>
+    <field name="arch" type="xml">
+      <form string="Tree Model">
+        <sheet>
+          <group>
+            <group name="detail" string="Detail">
+              <field name="rfid_tag"/>
+              <field name="name"/>
+              <field name="species"/>
+              <field name="planting_date" widget="date"/>
+              <field name="deskripsi"/>
+            </group>
+            <group name="monitoring" string="Monitoring">
+              <field name="age_display" readonly="1"/>
+              <field name="datetime_check" readonly="1"/>
+              <field name="counter_check" readonly="1"/>
+              <field name="create_date" string="Created At" readonly="1"/>
+              <field name="create_uid" string="Created By" readonly="1"/>
+            </group>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <!-- list -->
+  <record id="view_list_tree_model" model="ir.ui.view">
+    <field name="name">tree.model.list</field>
+    <field name="model">tree.model</field>
+    <field name="arch" type="xml">
+      <list string="Tree Model">
+        <field name="rfid_tag"/>
+        <field name="name"/>
+        <field name="species"/>
+        <field name="create_date" string="Created At" readonly="1"/>
+        <field name="create_uid" string="Created By" readonly="1"/>
+      </list>
+    </field>
+  </record>
+
+  <!-- action -->
+  <record id="action_tree_model" model="ir.actions.act_window">
+    <field name="name">Tree</field>
+    <field name="res_model">tree.model</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+</odoo>

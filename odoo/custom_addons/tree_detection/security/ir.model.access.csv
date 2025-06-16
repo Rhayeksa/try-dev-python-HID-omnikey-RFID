@@ -1,2 +1,2 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_tree_detection_tree_detection,tree_detection.tree_detection,model_tree_detection_tree_detection,base.group_user,1,1,1,1
+access_tree_model_user,access_tree_model_user,model_tree_model,,1,1,1,1

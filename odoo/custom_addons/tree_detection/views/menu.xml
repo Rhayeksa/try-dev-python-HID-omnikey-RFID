@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <!-- root menu -->
+    <menuitem id="menu_tree_root" name="Tree"/>
+
+    <!-- sub menu -->
+    <menuitem id="menu_tree_model" name="Data Tree" parent="menu_tree_root" action="action_tree_model"/>
+  </data>
+</odoo>
