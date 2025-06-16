@@ -17,7 +17,7 @@
               <field name="deskripsi"/>
             </group>
             <group name="monitoring" string="Monitoring">
-              <field name="age_display" readonly="1"/>
+              <field name="age_display" string="Age (Days)" readonly="1"/>
               <field name="datetime_check" readonly="1"/>
               <field name="counter_check" readonly="1"/>
               <field name="create_date" string="Created At" readonly="1"/>
