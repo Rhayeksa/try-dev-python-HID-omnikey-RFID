@@ -7,7 +7,7 @@ from smartcard.System import readers
 from smartcard.util import toHexString
 
 # Ganti dengan endpoint REST API
-API_URL = "http://146.190.93.211:8099/api/tree-detection"
+API_URL = "http://146.190.93.211:8099/api/tree-detection/json-req"
 GET_UID = [0xFF, 0xCA, 0x00, 0x00, 0x00]
 
 
@@ -20,12 +20,14 @@ def get_reader():
 
 
 def send_uid(uid, device_name):
-    payload = {"uid": uid, "device": device_name, "rfid": uid}
+    # payload = {"uid": uid, "device": device_name, "rfid": uid}
+    payload = {"uid": uid, "device": device_name, "id_tag": uid}
     try:
-        res = requests.put(f"{API_URL}/{uid}", json=payload, timeout=5)
+        # res = requests.put(f"{API_URL}/{uid}", json=payload, timeout=5)
+        res = requests.post(f"{API_URL}/", json=payload, timeout=5)
         print("✅\tUID terkirim:", uid) if res.ok else print(
             "⚠️\tGagal kirim:", res.status_code)
-        res = str(json.loads(res.content.decode())).replace(" ", "")
+        res = json.loads(res.content.decode())
         print(f"Response : {res}")
     except Exception as e:
         print("❌   Error API:", e)
@@ -58,7 +60,7 @@ def main():
             conn.connect()
             data, sw1, sw2 = conn.transmit(GET_UID)
             if (sw1, sw2) == (0x90, 0x00):
-                uid = toHexString(data)
+                uid = toHexString(data).replace(" ", "")
                 if uid != last_uid:
                     last_uid = uid
                     print(f"🎯\tUID terbaca: {uid}")
