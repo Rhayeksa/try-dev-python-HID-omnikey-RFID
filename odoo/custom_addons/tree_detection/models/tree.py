@@ -6,8 +6,8 @@ class Tree(models.Model):
     _name = 'tree.model'
     _description = 'Tree Model'
 
-    name = fields.Char(string="Name", required=True)
     rfid_tag = fields.Char(string="RFID Tag", required=True)
+    name = fields.Char(string="Name")
     species = fields.Selection([
         ("kelapa sawit", "Kelapa Sawit"),
         ("karet", "Karet"),

@@ -11,6 +11,7 @@ from odoo import http
 class TreeDetection(http.Controller):
     _now = datetime.now()
 
+    # util
     def _response(self, code: int, msg: str = None, page: dict = None, data=None):
         status = None
         try:
@@ -46,17 +47,8 @@ class TreeDetection(http.Controller):
         row = cr.fetchone()
         return dict(zip(columns, row)) if row else None
 
-    @http.route('/api/tree-detection', type='http', auth='public', methods=['POST'], csrf=False)
-    def _update_tree(self, **kw):
+    def _upsert(self, rfid: str):
         try:
-            # x = json.loads(request.httprequest.data)
-            rfid = kw.get("rfid")
-
-            # req = json.loads(request.httprequest.data)
-            # req = {
-            #     "name": req.get("name")
-            # }
-
             request.env.cr.execute(
                 """
                 SELECT counter_check, planting_date FROM tree_model WHERE rfid_tag = %s
@@ -64,7 +56,16 @@ class TreeDetection(http.Controller):
             )
             data = self._fetchone_dict(request.env.cr)
             if not data:
-                return self._response(code=404, msg=f"RFID {rfid} tidak terdaftar")
+                request.env.cr.execute(
+                    """
+                    INSERT INTO tree_model(rfid_tag, create_date)
+                    VALUES(%s, %s)
+                    """, (
+                        rfid,
+                        self._now,
+                    )
+                )
+                return self._response(code=201, msg=f"Inisiasi RFID {rfid}")
 
             request.env.cr.execute(
                 """
@@ -74,16 +75,20 @@ class TreeDetection(http.Controller):
                     , age = %s
                 WHERE rfid_tag = %s
                 """, (
-                    self._now,
-                    data["counter_check"]+1,
-                    (self._now.date() - data["planting_date"]).days,
+                    self._now if data["planting_date"] else None,
+                    data["counter_check"]+1 if data["counter_check"] else None,
+                    (
+                        self._now.date() - data["planting_date"]
+                    ).days if data["planting_date"] else None,
                     rfid,
                 )
             )
             return self._response(code=200, msg=f"Tree {rfid} updated")
         except Exception as e:
             return self._response(code=500, msg=str(e))
+    # end util
 
+    # html page
     @http.route('/tree-detection', type='http', auth='public', methods=['GET'], csrf=False)
     def _tree_detection(self, **kw):
         return """<!DOCTYPE html>
@@ -105,7 +110,7 @@ class TreeDetection(http.Controller):
         <div class="card-body">
           <form
             id="rfid-form"
-            hx-post="/api/tree-detection"
+            hx-post="/api/tree-detection/form-html"
             hx-target="#alert-box"
             hx-swap="none"
             method="post"
@@ -113,7 +118,7 @@ class TreeDetection(http.Controller):
             <div class="input-group">
               <span class="input-group-text fw-bold" id="visible-addon">| | | | |</span>
               <input
-                name="rfid"
+                name="id_tag"
                 autofocus
                 type="text"
                 class="form-control"
@@ -145,7 +150,7 @@ class TreeDetection(http.Controller):
           const alertClass =
             code === 200
               ? 'alert alert-success'
-              : 'alert alert-danger';
+              : 'alert alert-success';
 
           alertBox.innerHTML = `<div class="${alertClass} mt-3" role="alert">${msg}</div>`;
         } catch (e) {
@@ -156,3 +161,17 @@ class TreeDetection(http.Controller):
     </script>
   </body>
 </html>"""
+    # end html page
+
+
+    # api
+    @http.route('/api/tree-detection/json-req', type='http', auth='public', methods=['POST'], csrf=False)
+    def _upsert_with_json(self, **kw):
+        req = json.loads(request.httprequest.data)
+        return self._upsert(rfid=req.get("id_tag"))
+
+    @http.route('/api/tree-detection/form-html', type='http', auth='public', methods=['POST'], csrf=False)
+    def _upsert_with_form(self, **kw):
+        return self._upsert(rfid=kw.get("id_tag"))
+    # end api
+

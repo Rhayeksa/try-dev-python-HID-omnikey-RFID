@@ -25,7 +25,7 @@ def send_uid(uid, device_name):
         res = requests.put(f"{API_URL}/{uid}", json=payload, timeout=5)
         print("✅\tUID terkirim:", uid) if res.ok else print(
             "⚠️\tGagal kirim:", res.status_code)
-        res = json.loads(res.content.decode())
+        res = str(json.loads(res.content.decode())).replace(" ", "")
         print(f"Response : {res}")
     except Exception as e:
         print("❌   Error API:", e)

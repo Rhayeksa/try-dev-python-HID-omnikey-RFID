@@ -10,7 +10,7 @@
         <sheet>
           <group>
             <group name="detail" string="Detail">
-              <field name="rfid_tag"/>
+              <field name="rfid_tag" string="ID Tag"/>
               <field name="name"/>
               <field name="species"/>
               <field name="planting_date" widget="date"/>
@@ -21,7 +21,7 @@
               <field name="datetime_check" readonly="1"/>
               <field name="counter_check" readonly="1"/>
               <field name="create_date" string="Created At" readonly="1"/>
-              <field name="create_uid" string="Created By" readonly="1"/>
+              <!-- <field name="create_uid" string="Created By" readonly="1"/> -->
             </group>
           </group>
         </sheet>
@@ -35,11 +35,11 @@
     <field name="model">tree.model</field>
     <field name="arch" type="xml">
       <list string="Tree Model">
-        <field name="rfid_tag"/>
+        <field name="rfid_tag" string="ID Tag"/>
         <field name="name"/>
         <field name="species"/>
         <field name="create_date" string="Created At" readonly="1"/>
-        <field name="create_uid" string="Created By" readonly="1"/>
+        <!-- <field name="create_uid" string="Created By" readonly="1"/> -->
       </list>
     </field>
   </record>
